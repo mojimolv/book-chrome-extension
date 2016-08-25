@@ -1,0 +1,19 @@
+{
+	"manifest_version":2,
+	
+    "name":"购书豆瓣评分",
+    "description":"京东图书、亚马逊图书、当当图书购书页面展示豆瓣评分",
+    "version":"0.0.1",
+    
+	"page_action": {
+		"default_icon": {
+			"19": "images/icon.png"
+		},
+		"default_title": "购书豆瓣评分"
+	},
+	"permissions" : ["https://api.douban.com/"],
+	"content_scripts":[{
+		"matches":["*://product.dangdang.com/*","*://item.jd.com/*","*://www.amazon.cn/gp/product/*"],
+		"js":["js/jquery-1.11.3.min.js", "js/background.js"]
+	}]
+}
