@@ -13,7 +13,7 @@
 	},
 	"permissions" : ["https://api.douban.com/"],
 	"content_scripts":[{
-		"matches":["*://product.dangdang.com/*","*://item.jd.com/*","*://www.amazon.cn/gp/product/*"],
+		"matches":["*://product.dangdang.com/*","*://item.jd.com/*","*://www.amazon.cn/*"],
 		"js":["js/jquery-1.11.3.min.js", "js/background.js"]
 	}]
 }

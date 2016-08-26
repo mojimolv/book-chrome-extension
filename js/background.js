@@ -18,21 +18,39 @@ var currentUrl=window.location.href;
 //匹配京东的页面
 if(startsWith(currentUrl, "http://item.jd.com/")||startsWith(currentUrl, "https://item.jd.com/")){
 	var elements=document.getElementById("parameter2").getElementsByTagName("li");
-	isbn=elements[1].innerHTML.split("：")[1];
+	for(var i=0;i<elements.length;i++){
+		var items=elements[i].innerHTML.split("：");
+		var itemHead=items[0];
+		if(itemHead=="ISBN"){
+			isbn=items[1];
+		}
+	}
 	containerElement=document.getElementById("nav-2014");
 }
 
 //匹配当当的页面
 if(startsWith(currentUrl, "http://product.dangdang.com/")||startsWith(currentUrl, "https://product.dangdang.com/")){
 	var elements=document.getElementById("detail_describe").getElementsByTagName("li");
-	isbn=elements[9].innerHTML.split("：")[1];
+	for(var i=0;i<elements.length;i++){
+		var items=elements[i].innerHTML.split("：");
+		var itemHead=items[0];
+		if(itemHead=="国际标准书号ISBN"){
+			isbn=items[1];
+		}
+	}
 	containerElement=document.getElementById("hd");
 }
 
 //匹配亚马逊的页面
-if(startsWith(currentUrl, "http://www.amazon.cn/gp/product/")||startsWith(currentUrl, "https://www.amazon.cn/gp/product/")){
+if(startsWith(currentUrl, "http://www.amazon.cn/")||startsWith(currentUrl, "https://www.amazon.cn/")){
 	var elements=document.getElementById("detail_bullets_id").getElementsByTagName("li");	 //嵌套层次比较深，可以直接拿最底层的子元素
-	isbn=elements[7].innerHTML.split(" ")[1];
+	for(var i=0;i<elements.length;i++){
+		var items=elements[i].innerHTML.split(" ");
+		var itemHead=items[0];
+		if(itemHead=="<b>ISBN:</b>"){
+			isbn=elements[i].innerHTML.split(" ")[items.length-1];
+		}
+	}
 	containerElement=document.getElementById("navbar");
 }
 
