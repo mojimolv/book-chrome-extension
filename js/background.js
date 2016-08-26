@@ -54,15 +54,27 @@ if(startsWith(currentUrl, "http://www.amazon.cn/")||startsWith(currentUrl, "http
 	containerElement=document.getElementById("navbar");
 }
 
-var xmlHttp = new XMLHttpRequest();
-//此处涉及到跨域访问的安全问题，所以一定要在manifest的permissions中添加权限
-xmlHttp.open("GET", "https://api.douban.com/v2/book/isbn/:"+isbn, false);
-xmlHttp.send(null);
-var jsonResponse=JSON.parse(xmlHttp.responseText);	//将字符串转换成json格式
-var numRaters=jsonResponse.rating.numRaters;	//参与评分的人数
-var average=jsonResponse.rating.average;	//平均评分
-var url=jsonResponse.alt;	//豆瓣链接
-div.innerHTML="豆瓣评分："+average+"&nbsp;&nbsp;参与人数："+numRaters+"&nbsp;&nbsp;<a href=\""+url+"\">跳转到豆瓣书评</a>";
+if(isbn!=null){	//如果查找到了ISBN号
+	var xmlHttp = new XMLHttpRequest();
+	//此处涉及到跨域访问的安全问题，所以一定要在manifest的permissions中添加权限
+	xmlHttp.open("GET", "https://api.douban.com/v2/book/isbn/:"+isbn, false);
+	xmlHttp.send(null);
+	var jsonResponse=JSON.parse(xmlHttp.responseText);	//将字符串转换成json格式
+	try{
+		var numRaters=jsonResponse.rating.numRaters;	//参与评分的人数
+		var average=jsonResponse.rating.average;	//平均评分
+		var url=jsonResponse.alt;	//豆瓣链接
+		div.innerHTML="豆瓣评分："+average+"&nbsp;&nbsp;参与人数："+numRaters+"&nbsp;&nbsp;<a href=\""+url+"\">跳转到豆瓣书评</a>";
+	}catch(err){
+		console.log("在获取豆瓣评分时出错，错误信息为："+err.message);
+		if(jsonResponse.msg=="book_not_found"){
+			div.innerHTML="没有在豆瓣上找到该图书";
+		}
+	}
+	containerElement.appendChild(div);
+}else{
+	console.log("没有在页面上找到ISBN");
+}
 
-containerElement.appendChild(div);
+
 
